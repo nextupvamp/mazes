@@ -68,7 +68,8 @@ public class Printer {
     /**
      * Creates the char matrix with maze depiction.
      * Every single cell is surrounded with walls and
-     * intersection. So it uses 6 or 9 chars per one cell.
+     * intersection. So it uses 6 chars per one cell and
+     * 9 chars for the last cell in the row.
      *
      * @param maze maze to build
      * @return char matrix with maze depiction
