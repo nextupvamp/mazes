@@ -167,9 +167,9 @@ public class InputHandler {
 
     private void printQuadrants() {
         printer.printStrings(
-                "2 | 1",
-                "--|--",
-                "3 | 4"
+                "2 ┃ 1",
+                "━━╋━━",
+                "3 ┃ 4"
         );
     }
 
@@ -184,7 +184,7 @@ public class InputHandler {
     }
 
     /**
-     * Method handles user number input according to a bounds
+     * Method handles user number input according to bounds
      *
      * @param from lower bound of number
      * @param to   upper bound of number
