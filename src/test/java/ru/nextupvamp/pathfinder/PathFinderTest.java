@@ -1,4 +1,4 @@
-package ru.nextupvamp.pathfinders;
+package ru.nextupvamp.pathfinder;
 
 import org.junit.jupiter.api.Test;
 import ru.nextupvamp.TestSourceData;
@@ -10,12 +10,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PathfinderTest {
+public class PathFinderTest {
     // There's only one way in a unicursal maze so paths of
     // two following methods will be the same
     @Test
     public void testDFSPathfinderOnUnicursalMaze() {
-        Pathfinder pathfinder = new DFSPathfinder();
+        PathFinder pathfinder = new DFSPathFinder();
         List<Coordinate> path = pathfinder.findPath(TestSourceData.UNICURSAL_MAZE,
                 TestSourceData.UNICURSAL_MAZE.entrance(), TestSourceData.UNICURSAL_MAZE.exit());
         Collections.sort(path);
@@ -24,7 +24,7 @@ public class PathfinderTest {
 
     @Test
     public void testAStarPathfinderOnUnicuralMaze() {
-        Pathfinder pathfinder = new AStarPathfinder();
+        PathFinder pathfinder = new AStarPathFinder();
         List<Coordinate> path = pathfinder.findPath(TestSourceData.UNICURSAL_MAZE,
                 TestSourceData.UNICURSAL_MAZE.entrance(), TestSourceData.UNICURSAL_MAZE.exit());
         Collections.sort(path);
@@ -36,7 +36,7 @@ public class PathfinderTest {
     // both entrance and exit
     @Test
     public void testDFSPathfinderOnBraidMazeWithModifiers() {
-        Pathfinder pathfinder = new DFSPathfinder();
+        PathFinder pathfinder = new DFSPathFinder();
         List<Coordinate> path = pathfinder.findPath(TestSourceData.BRAID_MAZE_WITH_MODIFIERS,
                 TestSourceData.BRAID_MAZE_WITH_MODIFIERS.entrance(),
                 TestSourceData.BRAID_MAZE_WITH_MODIFIERS.exit());
@@ -50,7 +50,7 @@ public class PathfinderTest {
     // or a jungle's value will be reduced.
     @Test
     public void testAStarPathfinderOnBraidMazeWithModifiers() {
-        Pathfinder pathfinder = new AStarPathfinder();
+        PathFinder pathfinder = new AStarPathFinder();
         List<Coordinate> path = pathfinder.findPath(TestSourceData.BRAID_MAZE_WITH_MODIFIERS,
                 TestSourceData.BRAID_MAZE_WITH_MODIFIERS.entrance(),
                 TestSourceData.BRAID_MAZE_WITH_MODIFIERS.exit());

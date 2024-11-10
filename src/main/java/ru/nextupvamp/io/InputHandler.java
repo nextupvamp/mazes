@@ -2,15 +2,11 @@ package ru.nextupvamp.io;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import ru.nextupvamp.factory.Builder;
-import ru.nextupvamp.factory.PrimAlgorithmMazeBuilder;
-import ru.nextupvamp.factory.WilsonAlgorithmMazeBuilder;
+import ru.nextupvamp.builder.MazeBuilderType;
 import ru.nextupvamp.maze.Coordinate;
 import ru.nextupvamp.maze.Maze;
 import ru.nextupvamp.maze.MazeParamsDTO;
-import ru.nextupvamp.pathfinders.AStarPathfinder;
-import ru.nextupvamp.pathfinders.DFSPathfinder;
-import ru.nextupvamp.pathfinders.Pathfinder;
+import ru.nextupvamp.pathfinder.PathFinderType;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -24,10 +20,6 @@ public class InputHandler {
     public static final int THIRD_QUADRANT = 3;
     public static final int FORTH_QUADRANT = 4;
     public static final int INPUT_METHODS = 2;
-    public static final int DFS_ORDINAL = 1;
-    public static final int A_STAR_ORDINAL = 2;
-    public static final int PRIMS_ORDINAL = 1;
-    public static final int WILSONS_ORDINAL = 2;
     public static final int QUADRANTS_METHOD_ORDINAL = 1;
     public static final int COORDS_METHOD_ORDINAL = 2;
     private final Scanner scanner;
@@ -38,33 +30,28 @@ public class InputHandler {
         this.printer = printer;
     }
 
-    public Pathfinder inputPathfinderType() {
+    public PathFinderType inputPathFinderType() {
         printer.printStrings(
                 "Выберите алгоритм поиска пути:",
                 "1. DFS",
                 "2. A-star"
         );
 
-        return switch (inputNumber(1, Pathfinder.IMPLEMENTATIONS)) {
-            case DFS_ORDINAL -> new DFSPathfinder();
-            case A_STAR_ORDINAL -> new AStarPathfinder();
-            default -> throw new IllegalStateException("Unexpected pathfinder type");
-        };
+        PathFinderType[] values = PathFinderType.values();
 
+        return values[inputNumber(1, values.length) - 1];
     }
 
-    public Builder inputBuilderType() {
+    public MazeBuilderType inputBuilderType() {
         printer.printStrings(
                 "Выберите алгоритм создания лабиринта",
                 "1. Алгоритм Прима",
                 "2. Алгоритм Уилсона"
         );
 
-        return switch (inputNumber(1, Builder.IMPLEMENTATIONS)) {
-            case PRIMS_ORDINAL -> new PrimAlgorithmMazeBuilder();
-            case WILSONS_ORDINAL -> new WilsonAlgorithmMazeBuilder();
-            default -> throw new IllegalStateException("Unexpected builder type");
-        };
+        MazeBuilderType[] values = MazeBuilderType.values();
+
+        return values[inputNumber(1, values.length) - 1];
     }
 
     public MazeParamsDTO inputMazeParams() {

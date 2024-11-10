@@ -1,4 +1,4 @@
-package ru.nextupvamp.pathfinders;
+package ru.nextupvamp.pathfinder;
 
 import ru.nextupvamp.maze.Cell;
 import ru.nextupvamp.maze.Coordinate;
@@ -7,10 +7,10 @@ import ru.nextupvamp.maze.Maze;
 
 import java.util.*;
 
-public class DFSPathfinder implements Pathfinder {
+public class DFSPathFinder implements PathFinder {
     @Override
     public List<Coordinate> findPath(Maze maze, Coordinate start, Coordinate end) {
-        Cell[][] grid = maze.grid();
+        Cell[][] grid = maze.getGridCopy();
         Deque<Coordinate> toVisit = new LinkedList<>();
         boolean[][] isVisited = new boolean[grid.length][grid[0].length];
         Map<Coordinate, Coordinate> parentMap = new HashMap<>();

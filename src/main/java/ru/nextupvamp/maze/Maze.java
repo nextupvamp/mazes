@@ -1,7 +1,9 @@
 package ru.nextupvamp.maze;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import ru.nextupvamp.builder.MazeBuilder;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -22,24 +24,26 @@ public class Maze {
 
     private final int height;
     private final int width;
+    @Getter(AccessLevel.NONE)
     private final Cell[][] grid;
     @Setter
     private boolean built;
     private Coordinate entrance;
     private Coordinate exit;
 
-    public Maze(int height, int width) {
+    public Maze(int height, int width, Cell[][] grid) {
         this.height = height;
         this.width = width;
-        grid = new Cell[height][width];
+        this.grid = grid;
     }
 
-    public void initGrid() {
-        for (int i = 0; i != height; ++i) {
-            for (int j = 0; j != width; ++j) {
-                grid[i][j] = new Cell(i, j);
-            }
+    public Cell[][] getGridCopy() {
+        Cell[][] copy = new Cell[height][width];
+        for (int i = 0; i != grid.length; i++) {
+            System.arraycopy(grid[i], 0, copy[i], 0, grid[i].length);
         }
+
+        return copy;
     }
 
     /**
@@ -50,6 +54,7 @@ public class Maze {
      *
      * @throws IllegalStateException if maze isn't built
      */
+    @SuppressWarnings("checkstyle:cyclomaticcomplexity")
     public void makeBraid() {
         if (!built) {
             throw new IllegalStateException("Maze is not built");
@@ -98,7 +103,7 @@ public class Maze {
 
                 // Carve the way in a random direction
                 Direction direction = directions.get(RANDOM.nextInt(directions.size()));
-                carveWay(i, j, direction);
+                MazeBuilder.carveWay(grid, i, j, direction);
             }
         }
     }
@@ -116,40 +121,12 @@ public class Maze {
                 int randInt = RANDOM.nextInt(MAX_PROBABILITY);
                 if (randInt < prob) {
                     if (randInt % 2 == 0) {
-                        grid[i][j].modifier(Modifier.JUNGLE);
+                        grid[i][j].mazeCellModifier(MazeCellModifier.JUNGLE);
                     } else {
-                        grid[i][j].modifier(Modifier.DIAMOND);
+                        grid[i][j].mazeCellModifier(MazeCellModifier.DIAMOND);
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * The method removes wall between two cells
-     *
-     * @param row       row of the cell in the grid
-     * @param col       column of the cell in the grid
-     * @param direction direction in which the wall will be removed
-     */
-    public void carveWay(int row, int col, Direction direction) {
-        switch (direction) {
-            case NORTH:
-                grid[row][col].walls().remove(Direction.NORTH);
-                grid[row - 1][col].walls().remove(Direction.SOUTH);
-                break;
-            case SOUTH:
-                grid[row][col].walls().remove(Direction.SOUTH);
-                grid[row + 1][col].walls().remove(Direction.NORTH);
-                break;
-            case EAST:
-                grid[row][col].walls().remove(Direction.EAST);
-                grid[row][col + 1].walls().remove(Direction.WEST);
-                break;
-            case WEST:
-                grid[row][col].walls().remove(Direction.WEST);
-                grid[row][col - 1].walls().remove(Direction.EAST);
-                break;
         }
     }
 

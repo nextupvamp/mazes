@@ -1,7 +1,7 @@
 package ru.nextupvamp.io;
 
 import ru.nextupvamp.maze.*;
-import ru.nextupvamp.pathfinders.Pathfinder;
+import ru.nextupvamp.pathfinder.PathFinder;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class Printer {
         this.out = out;
     }
 
-    public void printMaze(Maze maze, Pathfinder pathfinder) {
+    public void printMaze(Maze maze, PathFinder pathfinder) {
         char[][] depiction = buildMazeDepiction(maze);
 
         if (pathfinder != null) {
@@ -42,11 +42,12 @@ public class Printer {
                 addPath(depiction, path);
 
                 int pathLength = 0;
+                Cell[][] gridCopy = maze.getGridCopy();
                 for (Coordinate c : path) {
-                    pathLength += switch (maze.grid()[c.row()][c.col()].modifier()) {
-                        case DIAMOND -> Modifier.DIAMOND_MODIFIER_VALUE;
-                        case JUNGLE -> Modifier.JUNGLE_MODIFIER_VALUE;
-                        case DEFAULT -> Modifier.DEFAULT_MODIFIER_VALUE;
+                    pathLength += switch (gridCopy[c.row()][c.col()].mazeCellModifier()) {
+                        case DIAMOND -> MazeCellModifier.DIAMOND_MODIFIER_VALUE;
+                        case JUNGLE -> MazeCellModifier.JUNGLE_MODIFIER_VALUE;
+                        case DEFAULT -> MazeCellModifier.DEFAULT_MODIFIER_VALUE;
                     };
                 }
                 out.printf("Количество шагов: %d%nДлина пути: %d%n", path.size(), pathLength);
@@ -73,8 +74,9 @@ public class Printer {
      * @param maze maze to build
      * @return char matrix with maze depiction
      */
+    @SuppressWarnings("checkstyle:missingswitchdefault")
     private char[][] buildMazeDepiction(Maze maze) {
-        Cell[][] grid = maze.grid();
+        Cell[][] grid = maze.getGridCopy();
         char[][] depiction = new char[grid.length * 2 + 1][grid[0].length * 2 + 1];
         for (int i = 0; i != depiction.length; ++i) {
             Arrays.fill(depiction[i], SPACE);
@@ -108,7 +110,7 @@ public class Printer {
                 }
 
                 // modifiers
-                switch (grid[i][j].modifier()) {
+                switch (grid[i][j].mazeCellModifier()) {
                     case DIAMOND:
                         depiction[row][col] = DIAMOND;
                         break;
@@ -169,6 +171,7 @@ public class Printer {
         }
     }
 
+    @SuppressWarnings("checkstyle:cyclomaticcomplexity")
     private char determineIntersectionChar(
             boolean north,
             boolean south,

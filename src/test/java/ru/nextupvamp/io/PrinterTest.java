@@ -7,8 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.nextupvamp.TestSourceData;
-import ru.nextupvamp.pathfinders.DFSPathfinder;
-import ru.nextupvamp.pathfinders.Pathfinder;
+import ru.nextupvamp.pathfinder.DFSPathFinder;
+import ru.nextupvamp.pathfinder.PathFinder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -24,7 +24,7 @@ public class PrinterTest {
     public static final PrintStream PRINT_STREAM = new PrintStream(BAOS);
     public static final Printer PRINTER = new Printer(PRINT_STREAM);
     @Mock
-    private Pathfinder pathfinder = new DFSPathfinder();
+    private PathFinder pathfinder = new DFSPathFinder();
 
     @AfterEach
     @SneakyThrows

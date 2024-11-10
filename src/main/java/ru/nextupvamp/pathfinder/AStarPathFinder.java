@@ -1,14 +1,14 @@
-package ru.nextupvamp.pathfinders;
+package ru.nextupvamp.pathfinder;
 
 import ru.nextupvamp.maze.*;
 
 import java.util.*;
 
-public class AStarPathfinder implements Pathfinder {
+public class AStarPathFinder implements PathFinder {
 
     @Override
     public List<Coordinate> findPath(Maze maze, Coordinate start, Coordinate end) {
-        Cell[][] grid = maze.grid();
+        Cell[][] grid = maze.getGridCopy();
         Set<Coordinate> closedSet = new HashSet<>(maze.height() * maze.width());
         PriorityQueue<Node> openSetQueue = new PriorityQueue<>(Comparator.comparingDouble(Node::getFScore));
         // Path tracing map
@@ -44,10 +44,10 @@ public class AStarPathfinder implements Pathfinder {
                 }
 
                 // Determination of transition cost
-                int modifier = switch (grid[current.row()][current.col()].modifier()) {
-                    case DEFAULT -> Modifier.DEFAULT_MODIFIER_VALUE;
-                    case JUNGLE -> Modifier.JUNGLE_MODIFIER_VALUE;
-                    case DIAMOND -> Modifier.DIAMOND_MODIFIER_VALUE;
+                int modifier = switch (grid[current.row()][current.col()].mazeCellModifier()) {
+                    case DEFAULT -> MazeCellModifier.DEFAULT_MODIFIER_VALUE;
+                    case JUNGLE -> MazeCellModifier.JUNGLE_MODIFIER_VALUE;
+                    case DIAMOND -> MazeCellModifier.DIAMOND_MODIFIER_VALUE;
                 };
                 double tentativeGScore = gScore.get(current) + modifier;
 

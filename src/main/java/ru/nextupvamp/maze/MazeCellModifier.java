@@ -1,6 +1,6 @@
 package ru.nextupvamp.maze;
 
-public enum Modifier {
+public enum MazeCellModifier {
     DEFAULT, JUNGLE, DIAMOND;
 
     // Increasing value causes increasing cost of transition.

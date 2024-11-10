@@ -11,13 +11,15 @@ public class Cell {
     private final EnumSet<Direction> walls;
     @Setter
     private boolean visited;
-    @Setter private Direction direction;
-    @Setter private Modifier modifier;
+    @Setter
+    private Direction direction;
+    @Setter
+    private MazeCellModifier mazeCellModifier;
 
     public Cell(int row, int col) {
         coordinate = new Coordinate(row, col);
         walls = EnumSet.allOf(Direction.class);
         direction = Direction.NORTH;
-        modifier = Modifier.DEFAULT;
+        mazeCellModifier = MazeCellModifier.DEFAULT;
     }
 }
