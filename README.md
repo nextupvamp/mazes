@@ -1,4 +1,4 @@
-* Three maze generation algorithms have been implemented: Prim's algorithm, Wilson's algorithm, and the woven maze algorithm.
+* Three maze generation algorithms have been implemented: Prim's algorithm, Wilson's algorithm, and the braid maze algorithm.
 * Two pathfinding algorithms have been implemented: iterative DFS and A-star.
 * Various types of surfaces (modifiers) have been implemented.
 
